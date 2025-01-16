@@ -40,7 +40,7 @@ public class ReservationController {
 
     @PostMapping
     public String createOrUpdateReservation(
-            @Valid @ModelAttribute("reservation") Reservation reservation,
+            @Valid @ModelAttribute Reservation reservation,
             BindingResult bindingResult,
             Model model
     ) {

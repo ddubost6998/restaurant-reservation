@@ -30,7 +30,7 @@ public class TableController {
 
     @PostMapping
     public String createOrUpdateTable(
-            @Valid @ModelAttribute("table") Table table,
+            @Valid @ModelAttribute Table table,
             BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {

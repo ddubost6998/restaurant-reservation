@@ -4,6 +4,7 @@
     <title>Fragments communs</title>
 </head>
 <body>
+
 <!-- Fragment "header" -->
 <th:block th:fragment="header">
     <meta charset="utf-8"/>
@@ -13,7 +14,7 @@
 
 <!-- Fragment "menu" : navbar bootstrap -->
 <th:block th:fragment="menu">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/}">Accueil</a>
             <button class="navbar-toggler" type="button" ...>...</button>

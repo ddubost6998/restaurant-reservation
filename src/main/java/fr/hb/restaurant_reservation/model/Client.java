@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Pattern;
 
 public class Client {
 
-    @NotNull(message = "L'identifiant de la table ne peut pas être vide")
     private Long id;
 
     @NotBlank(message = "Le nom est obligatoire")

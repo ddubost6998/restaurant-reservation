@@ -9,14 +9,13 @@ import jakarta.validation.constraints.NotNull;
 
 public class Reservation {
 
-    @NotNull(message = "L'identifiant de la table ne peut pas être vide")
     private Long id;
 
     @NotNull(message = "La table est obligatoire")
     private Table table;
 
     @NotNull(message = "Le client est obligatoire")
-    private Client client;
+    private Long clientId;
 
     @NotNull(message = "La date est obligatoire")
     private LocalDate dateReservation;
@@ -30,10 +29,10 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(Table tableResto, Client client, LocalDate dateReservation,
+    public Reservation(Table table, Long clientId, LocalDate dateReservation,
                        LocalTime heureReservation, int nbPersonnes) {
-        this.table = tableResto;
-        this.client = client;
+        this.table = table;
+        this.clientId = clientId;
         this.dateReservation = dateReservation;
         this.heureReservation = heureReservation;
         this.nbPersonnes = nbPersonnes;
@@ -50,15 +49,15 @@ public class Reservation {
     public Table getTableResto() {
         return table;
     }
-    public void setTableResto(Table tableResto) {
-        this.table = tableResto;
+    public void setTable(Table table) {
+        this.table = table;
     }
 
-    public Client getClient() {
-        return client;
+    public Long getClient() {
+        return clientId;
     }
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(Long clientId) {
+        this.clientId = clientId;
     }
 
     public LocalDate getDateReservation() {

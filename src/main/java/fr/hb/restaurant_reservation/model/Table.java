@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 
 public class Table {
 
-    @NotNull(message = "L'identifiant de la table ne peut pas être vide")
     private Long id;
 
     @NotNull(message = "Le nombre de places est obligatoire")

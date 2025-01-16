@@ -30,7 +30,7 @@ public class ClientController {
 
     @PostMapping
     public String createOrUpdateClient(
-            @Valid @ModelAttribute("client") Client client,
+            @Valid @ModelAttribute Client client,
             BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
