@@ -1,20 +1,93 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Accueil</title>
+    <!-- Titre de la page -->
+    <title th:text="#{accueil.title}">Accueil</title>
+
+    <!-- Inclusion du header commun -->
+    <div th:insert="~{common/menu :: header}"></div>
 </head>
 <body>
-<h1>Accueil</h1>
-<p>Nombre total de tables : <span th:text="${nbTables}"></span></p>
-<p>Nombre total de réservations : <span th:text="${nbReservations}"></span></p>
-<p>Tables libres : <span th:text="${nbTablesLibres}"></span></p>
 
-<nav>
-    <ul>
-        <li><a th:href="@{/tables}">Voir toutes les tables</a></li>
-        <li><a th:href="@{/clients}">Voir tous les clients</a></li>
-        <li><a th:href="@{/reservations}">Voir toutes les réservations</a></li>
-    </ul>
-</nav>
+<!-- Inclusion du menu ou navbar -->
+<div th:insert="~{common/menu :: menu}"></div>
+
+<main class="container py-5">
+    <!-- Exemple d’une “carte” Bootstrap pour le message de bienvenue -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <!-- Message de bienvenue -->
+                    <h1 th:text="#{accueil.welcome}">Bienvenue sur l'application de réservation</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableau avec quelques statistiques globales -->
+    <article class="table-responsive mt-4">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th th:text="#{accueil.totalTables}">Tables totales</th>
+                    <th th:text="#{accueil.totalClients}">Clients totaux</th>
+                    <th th:text="#{accueil.totalReservations}">Réservations totales</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <!-- Variables passées par le contrôleur -->
+                    <td th:text="${totalTables}">0</td>
+                    <td th:text="${totalClients}">0</td>
+                    <td th:text="${totalReservations}">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
+    
+    <!-- Exemple : afficher la liste des dernières réservations, si la liste n’est pas vide -->
+    <article class="table-responsive mt-4" th:unless="${reservations.isEmpty()}">
+        <h2 th:text="#{accueil.lastReservations}">Dernières réservations</h2>
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th th:text="#{reservation.id}">Id</th>
+                    <th th:text="#{reservation.tableId}">Table</th>
+                    <th th:text="#{reservation.clientId}">Client</th>
+                    <th th:text="#{reservation.date}">Date</th>
+                    <th th:text="#{reservation.hour}">Heure</th>
+                    <th th:text="#{reservation.nbPersons}">Personnes</th>
+                    <th th:text="#{actions}">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- On itère sur la liste reservations -->
+                <tr th:each="res : ${reservations}">
+                    <td th:text="${res.id}">Id</td>
+                    <!-- Par exemple, la table peut être un objet -->
+                    <td th:text="${res.tableResto.id}">Table Id</td>
+                    <td th:text="${res.client.id}">Client Id</td>
+                    <td th:text="${res.dateReservation}">Date</td>
+                    <td th:text="${res.heureReservation}">Heure</td>
+                    <td th:text="${res.nbPersonnes}">Nb Personnes</td>
+                    <td>
+                        <!-- Liens pour modifier / supprimer la réservation -->
+                        <a th:href="@{/reservations/edit/{id}(id=${res.id})}"
+                           class="btn btn-info btn-sm"
+                           th:text="#{edit}">Modifier</a>
+                        <a th:href="@{/reservations/delete/{id}(id=${res.id})}"
+                           class="btn btn-danger btn-sm"
+                           th:text="#{delete}"
+                           onclick="return confirm('Supprimer cette réservation ?');">
+                           Supprimer
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
+</main>
+
 </body>
 </html>

@@ -29,12 +29,25 @@ public class TableController {
     }
 
     @PostMapping
-    public String createOrUpdateTable(@Valid @ModelAttribute("table") Table table,BindingResult bindingResult) {
+    public String createOrUpdateTable(
+            @Valid @ModelAttribute("table") Table table,
+            BindingResult bindingResult
+    ) {
         if (bindingResult.hasErrors()) {
             return "tables/form";
         }
         tableService.save(table);
         return "redirect:/tables";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Table existingTable = tableService.findById(id);
+        if (existingTable == null) {
+            return "redirect:/tables";
+        }
+        model.addAttribute("table", existingTable);
+        return "tables/form";
     }
 
     @GetMapping("/delete/{id}")

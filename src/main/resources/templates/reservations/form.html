@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulaire Réservation</title>
+</head>
+<body>
+<h1 th:text="${#fields.hasErrors()} ? 'Modifier une réservation' : 'Créer une réservation'">Form Reservation</h1>
+
+<form th:action="@{/reservations}" th:object="${reservation}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label>Table :</label>
+        <select th:field="*{tableResto}">
+            <option th:each="t : ${tables}"
+                    th:value="${t}"
+                    th:text="${t.id + ' (' + t.nbPlaces + ' places)'}"
+                    th:selected="${t == reservation.tableResto}"></option>
+        </select>
+        <span th:if="${#fields.hasErrors('tableResto')}" 
+              th:errors="*{tableResto}">Erreur</span>
+    </div>
+
+    <div>
+        <label>Client :</label>
+        <select th:field="*{client}">
+            <option th:each="c : ${clients}"
+                    th:value="${c}"
+                    th:text="${c.nom + ' ' + c.prenom}"
+                    th:selected="${c == reservation.client}"></option>
+        </select>
+        <span th:if="${#fields.hasErrors('client')}" 
+              th:errors="*{client}">Erreur</span>
+    </div>
+
+    <div>
+        <label>Date :</label>
+        <input type="date" th:field="*{dateReservation}" />
+        <span th:if="${#fields.hasErrors('dateReservation')}" 
+              th:errors="*{dateReservation}">Erreur</span>
+    </div>
+
+    <div>
+        <label>Heure :</label>
+        <input type="time" th:field="*{heureReservation}" />
+        <span th:if="${#fields.hasErrors('heureReservation')}" 
+              th:errors="*{heureReservation}">Erreur</span>
+    </div>
+
+    <div>
+        <label>Nombre de personnes :</label>
+        <input type="number" th:field="*{nbPersonnes}" />
+        <span th:if="${#fields.hasErrors('nbPersonnes')}" 
+              th:errors="*{nbPersonnes}">Erreur</span>
+    </div>
+
+    <button type="submit">Enregistrer</button>
+</form>
+</body>
+</html>

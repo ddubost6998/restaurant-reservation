@@ -1,7 +1,12 @@
 package fr.hb.restaurant_reservation.controller;
 
 import fr.hb.restaurant_reservation.service.TableService;
+import fr.hb.restaurant_reservation.model.Reservation;
+import fr.hb.restaurant_reservation.service.ClientService;
 import fr.hb.restaurant_reservation.service.ReservationService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,26 +19,21 @@ public class AccueilController {
     private TableService tableService;
 
     @Autowired
+    private ClientService clientService;
+
+    @Autowired
     private ReservationService reservationService;
 
-    /**
-     * Page d'accueil : affiche quelques infos globales
-     */
     @GetMapping("/")
     public String accueil(Model model) {
-        int nbTables = tableService.findAll().size();
-        int nbReservations = reservationService.findAll().size();
-        
-        // On calcule le nombre de tables “libres”
-        long nbTablesLibres = tableService.findAll().stream()
-            .filter(t -> t.getStatut() != null && t.getStatut().name().equals("LIBRE"))
-            .count();
+        model.addAttribute("totalTables", tableService.findAll().size());
+        model.addAttribute("totalClients", clientService.findAll().size());
+        model.addAttribute("totalReservations", reservationService.findAll().size());
 
-        model.addAttribute("nbTables", nbTables);
-        model.addAttribute("nbReservations", nbReservations);
-        model.addAttribute("nbTablesLibres", nbTablesLibres);
+        List<Reservation> allReservations = reservationService.findAll();
 
-        // Renvoie vers templates/accueil.html
+        model.addAttribute("reservations", allReservations);
+
         return "accueil";
     }
 }

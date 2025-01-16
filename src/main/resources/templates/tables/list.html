@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{table.list.title}">Liste des Tables</title>
+    <!-- Insertion du header (Bootstrap, etc.) -->
+    <div th:insert="~{common/menu :: header}"></div>
+</head>
+<body>
+
+<!-- Insertion du menu ou navbar -->
+<div th:insert="~{common/menu :: menu}"></div>
+
+<main class="container py-5">
+    <div class="row">
+        <div class="col">
+            <h1 th:text="#{table.list.title}">Liste des Tables</h1>
+            <a th:href="@{/tables/add}" class="btn btn-primary mb-3"
+               th:text="#{table.list.new}">
+               Créer une nouvelle table
+            </a>
+
+            <!-- Tableau de liste des tables -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th th:text="#{table.id}">ID</th>
+                            <th th:text="#{table.nbPlaces}">Nb Places</th>
+                            <th th:text="#{table.statut}">Statut</th>
+                            <th th:text="#{actions}">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- On itère sur la collection "tables" passée par le contrôleur -->
+                        <tr th:each="t : ${tables}">
+                            <td th:text="${t.id}">1</td>
+                            <td th:text="${t.nbPlaces}">4</td>
+                            <td th:text="${t.statut}">LIBRE</td>
+                            <td>
+                                <a th:href="@{/tables/edit/{id}(id=${t.id})}"
+                                   class="btn btn-info btn-sm"
+                                   th:text="#{edit}">Modifier</a>
+                                <a th:href="@{/tables/delete/{id}(id=${t.id})}"
+                                   class="btn btn-danger btn-sm"
+                                   th:text="#{delete}"
+                                   onclick="return confirm('Supprimer cette table ?');">
+                                    Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
