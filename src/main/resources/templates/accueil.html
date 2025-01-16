@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Accueil</title>
+</head>
+<body>
+<h1>Accueil</h1>
+<p>Nombre total de tables : <span th:text="${nbTables}"></span></p>
+<p>Nombre total de réservations : <span th:text="${nbReservations}"></span></p>
+<p>Tables libres : <span th:text="${nbTablesLibres}"></span></p>
+
+<nav>
+    <ul>
+        <li><a th:href="@{/tables}">Voir toutes les tables</a></li>
+        <li><a th:href="@{/clients}">Voir tous les clients</a></li>
+        <li><a th:href="@{/reservations}">Voir toutes les réservations</a></li>
+    </ul>
+</nav>
+</body>
+</html>

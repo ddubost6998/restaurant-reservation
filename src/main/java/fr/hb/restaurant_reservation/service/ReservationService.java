@@ -11,9 +11,6 @@ public class ReservationService {
     private static final Map<Long, Reservation> reservationsStorage = new HashMap<>();
     private static long counter = 1;
 
-    /**
-     * CREATE ou UPDATE
-     */
     public Reservation save(Reservation reservation) {
         if (reservation.getTableResto() != null 
             && reservation.getTableResto().getNbPlaces() != null 
@@ -24,7 +21,6 @@ public class ReservationService {
             );
         }
 
-        // Générer un ID s'il est null ou 0
         if (reservation.getId() == null || reservation.getId() == 0) {
             reservation.setId(counter++);
         }
@@ -32,30 +28,18 @@ public class ReservationService {
         return reservation;
     }
 
-    /**
-     * READ ALL
-     */
     public List<Reservation> findAll() {
         return new ArrayList<>(reservationsStorage.values());
     }
 
-    /**
-     * READ ONE
-     */
     public Reservation findById(Long id) {
         return reservationsStorage.get(id);
     }
 
-    /**
-     * DELETE
-     */
     public void deleteById(Long id) {
         reservationsStorage.remove(id);
     }
 
-    /**
-     * Vider toutes les réservations
-     */
     public void clearAll() {
         reservationsStorage.clear();
         counter = 1;
