@@ -2,11 +2,12 @@ package fr.hb.restaurant_reservation.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public class Client {
 
-    @NotBlank(message = "L'identifiant de la table ne peut pas être vide")
+    @NotNull(message = "L'identifiant de la table ne peut pas être vide")
     private Long id;
 
     @NotBlank(message = "Le nom est obligatoire")

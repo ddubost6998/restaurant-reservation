@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class Reservation {
 
-    @NotBlank(message = "L'identifiant de la table ne peut pas être vide")
+    @NotNull(message = "L'identifiant de la table ne peut pas être vide")
     private Long id;
 
     @NotNull(message = "La table est obligatoire")

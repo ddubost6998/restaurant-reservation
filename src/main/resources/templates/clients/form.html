@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${client.id} != null ? #{client.form.editTitle} : #{client.form.createTitle}">
+        Formulaire Client
+    </title>
+    <!-- Insertion du header (Bootstrap, etc.) -->
+    <div th:insert="~{common/menu :: header}"></div>
+</head>
+<body>
+
+<!-- Barre de navigation -->
+<div th:insert="~{common/menu :: menu}"></div>
+
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 th:text="${client.id} != null ? #{client.form.editTitle} : #{client.form.createTitle}">
+                Formulaire Client
+            </h1>
+
+            <!-- Formulaire pour créer/modifier un client -->
+            <form th:action="@{/clients}" th:object="${client}" method="post">
+
+                <!-- Champ caché pour l'id si c'est une édition -->
+                <input type="hidden" th:field="*{id}" />
+
+                <!-- Nom -->
+                <div class="mb-3">
+                    <label class="form-label" th:for="nom" th:text="#{client.nom}">Nom</label>
+                    <input type="text" class="form-control" th:field="*{nom}" id="nom" />
+                    <!-- Erreur de validation si existante -->
+                    <div class="text-danger" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></div>
+                </div>
+
+                <!-- Prénom -->
+                <div class="mb-3">
+                    <label class="form-label" th:for="prenom" th:text="#{client.prenom}">Prénom</label>
+                    <input type="text" class="form-control" th:field="*{prenom}" id="prenom" />
+                    <div class="text-danger" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"></div>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label class="form-label" th:for="email" th:text="#{client.email}">Email</label>
+                    <input type="email" class="form-control" th:field="*{email}" id="email" />
+                    <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+
+                <!-- Téléphone -->
+                <div class="mb-3">
+                    <label class="form-label" th:for="telephone" th:text="#{client.telephone}">Téléphone</label>
+                    <input type="text" class="form-control" th:field="*{telephone}" id="telephone" />
+                    <div class="text-danger" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></div>
+                </div>
+
+                <!-- Genre via un champ ou un radio group -->
+                <div class="mb-3">
+                    <label class="form-label" th:text="#{client.genre}">Genre</label>
+                    <div>
+                        <input type="radio" th:field="*{genre}" value="H" id="genreH" /> 
+                        <label th:for="genreH" th:text="#{client.genre.homme}">Homme</label>
+                        <input type="radio" th:field="*{genre}" value="F" id="genreF" /> 
+                        <label th:for="genreF" th:text="#{client.genre.femme}">Femme</label>
+                        <input type="radio" th:field="*{genre}" value="AUTRE" id="genreA" />
+                        <label th:for="genreA" th:text="#{client.genre.autre}">Autre</label>
+                    </div>
+                    <div class="text-danger" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
+                </div>
+
+                <!-- Niveau (vip / normal) -->
+                <div class="mb-3">
+                    <label class="form-label" th:text="#{client.niveau}">Niveau</label>
+                    <select class="form-select" th:field="*{niveau}">
+                        <option th:value="normal" th:text="#{client.niveau.normal}">Normal</option>
+                        <option th:value="vip" th:text="#{client.niveau.vip}">VIP</option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('niveau')}" th:errors="*{niveau}"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary"
+                        th:text="${client.id} != null ? #{save} : #{create}">
+                    Enregistrer
+                </button>
+            </form>
+
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

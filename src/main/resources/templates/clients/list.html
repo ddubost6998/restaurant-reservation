@@ -1,33 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Liste des Clients</title>
+    <title th:text="#{client.list.title}">Liste des Clients</title>
+    <!-- Insertion du header (Bootstrap, etc.) -->
+    <div th:insert="~{common/menu :: header}"></div>
 </head>
 <body>
-<h1>Liste des Clients</h1>
 
-<a th:href="@{/tables/add}">Ajouter un nouveau client</a>
+<!-- Barre de navigation -->
+<div th:insert="~{common/menu :: menu}"></div>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nb Places</th>
-            <th>Statut</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="t : ${tables}">
-            <td th:text="${t.id}"></td>
-            <td th:text="${t.nbPlaces}"></td>
-            <td th:text="${t.statut}"></td>
-            <td>
-                <a th:href="@{'/tables/edit/' + ${t.id}}">Modifier</a> |
-                <a th:href="@{'/tables/delete/' + ${t.id}}">Supprimer</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<main class="container py-5">
+    <h1 th:text="#{client.list.title}">Liste des Clients</h1>
+
+    <!-- Bouton pour créer un nouveau client -->
+    <a class="btn btn-primary mb-3"
+       th:href="@{/clients/add}"
+       th:text="#{client.list.new}">
+       Créer un nouveau client
+    </a>
+
+    <!-- Tableau listant tous les clients -->
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th th:text="#{client.id}">ID</th>
+                    <th th:text="#{client.nom}">Nom</th>
+                    <th th:text="#{client.prenom}">Prénom</th>
+                    <th th:text="#{client.email}">Email</th>
+                    <th th:text="#{client.telephone}">Téléphone</th>
+                    <th th:text="#{client.genre}">Genre</th>
+                    <th th:text="#{client.niveau}">Niveau</th>
+                    <th th:text="#{actions}">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Boucle pour afficher chaque client -->
+                <tr th:each="c : ${clients}">
+                    <td th:text="${c.id}">1</td>
+                    <td th:text="${c.nom}">Nom</td>
+                    <td th:text="${c.prenom}">Prénom</td>
+                    <td th:text="${c.email}">Email</td>
+                    <td th:text="${c.telephone}">Téléphone</td>
+                    <td th:text="${c.genre}">Genre</td>
+                    <td th:text="${c.niveau}">Niveau</td>
+                    <td>
+                        <!-- Lien pour modifier -->
+                        <a th:href="@{/clients/edit/{id}(id=${c.id})}"
+                           class="btn btn-info btn-sm"
+                           th:text="#{edit}">Modifier</a>
+                        <!-- Lien pour supprimer -->
+                        <a th:href="@{/clients/delete/{id}(id=${c.id})}"
+                           class="btn btn-danger btn-sm"
+                           th:text="#{delete}"
+                           onclick="return confirm('Supprimer ce client ?');">
+                           Supprimer
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
 </body>
 </html>

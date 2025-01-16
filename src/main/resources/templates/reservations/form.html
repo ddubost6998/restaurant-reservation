@@ -1,61 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Formulaire Réservation</title>
+    <title th:text="${reservation.id} != null ? #{reservation.form.editTitle} : #{reservation.form.createTitle}">
+        Formulaire Réservation
+    </title>
+    <!-- Inclusion du header (Bootstrap, etc.) -->
+    <div th:insert="~{common/menu :: header}"></div>
 </head>
 <body>
-<h1 th:text="${#fields.hasErrors()} ? 'Modifier une réservation' : 'Créer une réservation'">Form Reservation</h1>
 
-<form th:action="@{/reservations}" th:object="${reservation}" method="post">
+<!-- Navbar -->
+<div th:insert="~{common/menu :: menu}"></div>
 
-    <input type="hidden" th:field="*{id}" />
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 th:text="${reservation.id} != null ? #{reservation.form.editTitle} : #{reservation.form.createTitle}">
+                Formulaire Réservation
+            </h1>
 
-    <div>
-        <label>Table :</label>
-        <select th:field="*{tableResto}">
-            <option th:each="t : ${tables}"
-                    th:value="${t}"
-                    th:text="${t.id + ' (' + t.nbPlaces + ' places)'}"
-                    th:selected="${t == reservation.tableResto}"></option>
-        </select>
-        <span th:if="${#fields.hasErrors('tableResto')}" 
-              th:errors="*{tableResto}">Erreur</span>
+            <!-- Formulaire -->
+            <form th:action="@{/reservations}" th:object="${reservation}" method="post">
+
+                <!-- ID caché si on édite -->
+                <input type="hidden" th:field="*{id}" />
+
+                <!-- Sélecteur de Table -->
+                <div class="mb-3">
+                    <label class="form-label" th:for="tableResto" th:text="#{reservation.tableId}">
+                        Table
+                    </label>
+                    <select class="form-select" th:field="*{tableResto}" id="tableResto">
+                        <option th:each="tbl : ${tables}"
+                                th:value="${tbl}"
+                                th:text="${tbl.id + ' (' + tbl.nbPlaces + ' places)'}"
+                                th:selected="${tbl == reservation.tableResto}">
+                        </option>
+                    </select>
+                    <!-- Erreur si absence de table -->
+                    <div class="text-danger" th:if="${#fields.hasErrors('tableResto')}" th:errors="*{tableResto}"></div>
+                </div>
+
+                <!-- Sélecteur de Client -->
+                <div class="mb-3">
+                    <label class="form-label" th:for="client" th:text="#{reservation.clientId}">Client</label>
+                    <select class="form-select" th:field="*{client}" id="client">
+                        <option th:each="cli : ${clients}"
+                                th:value="${cli}"
+                                th:text="${cli.id + ' - ' + cli.nom + ' ' + cli.prenom}"
+                                th:selected="${cli == reservation.client}">
+                        </option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('client')}" th:errors="*{client}"></div>
+                </div>
+
+                <!-- Date -->
+                <div class="mb-3">
+                    <label class="form-label" th:for="dateReservation" th:text="#{reservation.date}">Date</label>
+                    <input type="date" class="form-control" th:field="*{dateReservation}" id="dateReservation" />
+                    <div class="text-danger" th:if="${#fields.hasErrors('dateReservation')}" th:errors="*{dateReservation}"></div>
+                </div>
+
+                <!-- Heure -->
+                <div class="mb-3">
+                    <label class="form-label" th:for="heureReservation" th:text="#{reservation.hour}">Heure</label>
+                    <input type="time" class="form-control" th:field="*{heureReservation}" id="heureReservation" />
+                    <div class="text-danger" th:if="${#fields.hasErrors('heureReservation')}" th:errors="*{heureReservation}"></div>
+                </div>
+
+                <!-- Nombre de personnes -->
+                <div class="mb-3">
+                    <label class="form-label" th:for="nbPersonnes" th:text="#{reservation.nbPersons}">Personnes</label>
+                    <input type="number" class="form-control" th:field="*{nbPersonnes}" id="nbPersonnes" />
+                    <div class="text-danger" th:if="${#fields.hasErrors('nbPersonnes')}" th:errors="*{nbPersonnes}"></div>
+                </div>
+
+                <!-- Bouton Enregistrer -->
+                <button type="submit" class="btn btn-primary"
+                        th:text="${reservation.id} != null ? #{save} : #{create}">
+                    Enregistrer
+                </button>
+            </form>
+        </div>
     </div>
+</main>
 
-    <div>
-        <label>Client :</label>
-        <select th:field="*{client}">
-            <option th:each="c : ${clients}"
-                    th:value="${c}"
-                    th:text="${c.nom + ' ' + c.prenom}"
-                    th:selected="${c == reservation.client}"></option>
-        </select>
-        <span th:if="${#fields.hasErrors('client')}" 
-              th:errors="*{client}">Erreur</span>
-    </div>
-
-    <div>
-        <label>Date :</label>
-        <input type="date" th:field="*{dateReservation}" />
-        <span th:if="${#fields.hasErrors('dateReservation')}" 
-              th:errors="*{dateReservation}">Erreur</span>
-    </div>
-
-    <div>
-        <label>Heure :</label>
-        <input type="time" th:field="*{heureReservation}" />
-        <span th:if="${#fields.hasErrors('heureReservation')}" 
-              th:errors="*{heureReservation}">Erreur</span>
-    </div>
-
-    <div>
-        <label>Nombre de personnes :</label>
-        <input type="number" th:field="*{nbPersonnes}" />
-        <span th:if="${#fields.hasErrors('nbPersonnes')}" 
-              th:errors="*{nbPersonnes}">Erreur</span>
-    </div>
-
-    <button type="submit">Enregistrer</button>
-</form>
 </body>
 </html>
