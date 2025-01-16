@@ -43,6 +43,10 @@ public class Reservation {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Table getTableResto() {
         return table;
     }
